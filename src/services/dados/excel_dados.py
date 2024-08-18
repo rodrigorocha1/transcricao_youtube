@@ -8,11 +8,11 @@ import os
 
 class ExcelDados(Arquivo[Workbook]):
 
-    def __init__(self) -> None:
-        super().__init__()
+    def __init__(self, nome_arquivo: str) -> None:
+        super().__init__(nome_arquivo)
         self.__caminho_planilha = os.path.join(
             self._caminho_base, 'docs', f'{self._nome_arquivo}.xlsx')
-        self.__planilha = self.abrir_arquivo()
+        self.__planilha = self._abrir_arquivo()
         self.__aba = self.__planilha[self.__nome_aba]
         self.__nome_aba = self.__planilha.active.title
         self.__ultima_linha = self.__aba.max_row
@@ -20,8 +20,11 @@ class ExcelDados(Arquivo[Workbook]):
         self.__alinhamento_centralizado = Alignment(
             horizontal='center', vertical='center')
 
-    def abrir_arquivo(self) -> Workbook:
-        """Método para abrir planilha
+    def _abrir_arquivo(self) -> Workbook:
+        """Método para abrir a planilha
+
+        Returns:
+            Workbook: uma planilha
         """
         planilha = load_workbook(self.__caminho_planilha)
         return planilha
@@ -54,7 +57,7 @@ class ExcelDados(Arquivo[Workbook]):
                 celula.alignment = self.__alinhamento_centralizado
 
     def salvar_planilha(self):
-        """Método para salvar dados 
+        """Método para salvar dados
         """
         self.__planilha.save(self.__caminho_planilha)
         self.__planilha.close()
