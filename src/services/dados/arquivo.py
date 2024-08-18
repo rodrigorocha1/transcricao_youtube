@@ -15,6 +15,8 @@ class Arquivo(IOperacaoDados, Generic[T]):
         """
         self._nome_arquivo = nome_arquivo
         self._caminho_base = os.getcwd()
+        self._caminho_arquivo = os.path.join(
+            self._caminho_base, 'docs', f'{self._nome_arquivo}')
 
     @abstractmethod
     def _abrir_arquivo(self) -> T:

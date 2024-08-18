@@ -21,3 +21,32 @@ class Documento(Arquivo[Document]):
         """
         documento = Document()
         return documento
+
+    def gravar_dados(self, texto: str):
+        linhas = texto.split("\n")
+        for linha in linhas:
+            if linha.startswith("##  "):
+                titulo = self.__documento.add_heading(linha[3:], level=1)
+                for run in titulo.runs:
+                    run.font.color.rgb = self.__cor
+                    run.font.name = self.__fonte
+            elif linha.startswith("### "):
+                subtitulo = self.__documento.add_heading(linha[4:], level=2)
+                for run in subtitulo.runs:
+                    run.font.color.rgb = RGBColor(0, 0, 0)
+                    run.font.name = 'Ubuntu'
+            elif linha.startswith("* "):
+
+                paragrafo = self.__documento.add_paragraph(
+                    linha[2:], style='List Bullet')
+                paragrafo.alignment = self.__alinhamento_justificado
+                for run in paragrafo.runs:
+                    run.font.name = self.__fonte
+            elif linha.strip() != "":
+                paragrafo = self.__documento.add_paragraph(linha)
+                paragrafo.alignment = self.__alinhamento_justificado
+                for run in paragrafo.runs:
+                    run.font.name = self.__fonte
+
+    def salvar_dados(self):
+        self.__documento.save(self._caminho_arquivo)

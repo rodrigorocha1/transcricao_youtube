@@ -10,8 +10,7 @@ class ExcelDados(Arquivo[Workbook]):
 
     def __init__(self, nome_arquivo: str) -> None:
         super().__init__(nome_arquivo)
-        self.__caminho_planilha = os.path.join(
-            self._caminho_base, 'docs', f'{self._nome_arquivo}.xlsx')
+
         self.__planilha = self._abrir_arquivo()
         self.__aba = self.__planilha[self.__nome_aba]
         self.__nome_aba = self.__planilha.active.title
@@ -26,7 +25,7 @@ class ExcelDados(Arquivo[Workbook]):
         Returns:
             Workbook: uma planilha
         """
-        planilha = load_workbook(self.__caminho_planilha)
+        planilha = load_workbook(self._caminho_arquivo)
         return planilha
 
     def ler_valores(self) -> Generator[Iterable[str], None, None]:
@@ -59,5 +58,7 @@ class ExcelDados(Arquivo[Workbook]):
     def salvar_planilha(self):
         """Método para salvar dados
         """
-        self.__planilha.save(self.__caminho_planilha)
+        self.__planilha.save(self._caminho_arquivo)
+
+    def __del__(self):
         self.__planilha.close()
