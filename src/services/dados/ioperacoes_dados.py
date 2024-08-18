@@ -1,5 +1,4 @@
 from abc import ABC, abstractmethod
-from openpyxl.worksheet.worksheet import Worksheet
 from openpyxl.workbook.workbook import Workbook
 from typing import Generator, Iterable
 
@@ -7,13 +6,13 @@ from typing import Generator, Iterable
 class IOperacaoDados(ABC):
 
     @abstractmethod
-    def abrir_planilha(self) -> Workbook:
+    def __abrir_arquivo(self) -> Workbook:
         """Método para abrir planilha
         """
         pass
 
     @abstractmethod
-    def ler_valores(self, aba: Worksheet, ultima_linha: int) -> Generator[Iterable[str], None, None]:
+    def ler_valores(self) -> Generator[Iterable[str], None, None]:
         """Método para ler os valores da planilha
 
         Args:
