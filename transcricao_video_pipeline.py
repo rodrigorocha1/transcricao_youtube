@@ -17,7 +17,7 @@ class TranscricaoVideoPipeline:
             Union[IOperacaoDados, Arquivo],
             servico_youtube: IYoutubeInternet,
             servico_chat: IChat,
-            documento: Documento,
+            documento: Arquivo,
             arquivo_bruto: Arquivo) -> None:
         self.__arquivo = arquivo
         self.__servico_youtube = servico_youtube
