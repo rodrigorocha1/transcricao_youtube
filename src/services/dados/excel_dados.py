@@ -48,10 +48,13 @@ class ExcelDados(Arquivo[Workbook]):
         Yields:
             Generator[Tuple[str, str], None, None]: Gerador que retorna a url e o nome do vídeo
         """
-        for linha in self.__aba.iter_rows(min_row=2, max_col=2):
-            url, nome_video = linha[:2]
-            if url.value is not None:
+        for linha in self.__aba.iter_rows(min_row=2, max_col=3):
+            url, nome_video, marcador = linha[:3]
+
+            if marcador.value is not None:
                 yield url.value.split('=')[-1], self.__tratar_texto(nome_video.value)
+            else:
+                break
 
     def __marcar_campo(self, linha: int):
         linha += 1

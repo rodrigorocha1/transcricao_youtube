@@ -30,7 +30,8 @@ class TranscricaoVideoPipeline:
             #     sentenca=sentenca)
             texto_gerado = 'A'
             self.__documento.gravar_dados(texto=texto_gerado)
-            self.__documento.salvar_dados(f'{str(chave)}.docx')
+            self.__documento.salvar_dados(
+                f'resumo_do_video_{str(valor[1])}.docx')
             self.__arquivo.salvar_dados(linha=chave)
 
 

@@ -1,6 +1,7 @@
 import google.generativeai as genai
 from src.services.iachat.ichat import IChat
 from dotenv import load_dotenv
+from typing import Tuple
 import os
 load_dotenv
 
@@ -26,17 +27,19 @@ class ChatGoogleGemini(IChat):
         """.strip()
         return sentenca
 
-    def obter_resposta_modelo(self, sentenca: str) -> str:
-        """Método que irá fazer a busca da setença
+    def obter_resposta_modelo(self, sentenca: str) -> Tuple[str, str]:
+        """Método para recuperar a transcrição gravada e a transcrição bruta
 
         Args:
-            sentenca (str): sentença
+            sentenca (str): recebe a sentença
 
         Returns:
-            str: texto com a resposta da sentença
+            Tuple[str, str]: resposta_tratada e resposta bruta
         """
+
         genai.configure(api_key=self.__api_key)
         model = genai.GenerativeModel("gemini-1.5-flash")
         response = model.generate_content(sentenca)
         texto = response.text
-        return texto
+        texto_bruto = response.text
+        return texto, texto_bruto
