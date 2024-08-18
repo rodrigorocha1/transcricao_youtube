@@ -23,6 +23,14 @@ class ChatGoogleGemini(IChat):
         return sentenca
 
     def obter_resposta_modelo(self, sentenca: str) -> str:
+        """Método que irá fazer a busca da setença
+
+        Args:
+            sentenca (str): sentença
+
+        Returns:
+            str: texto com a resposta da sentença
+        """
         genai.configure(api_key=self.__api_key)
         model = genai.GenerativeModel("gemini-1.5-flash")
         response = model.generate_content(sentenca)
