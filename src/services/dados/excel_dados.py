@@ -1,7 +1,7 @@
 from typing import Generator, Iterable
 from openpyxl import load_workbook
 from openpyxl.workbook.workbook import Workbook
-from openpyxl.worksheet.worksheet import Worksheet
+from openpyxl.styles import Alignment
 from src.services.dados.arquivo import Arquivo
 import os
 
@@ -17,6 +17,8 @@ class ExcelDados(Arquivo[Workbook]):
         self.__nome_aba = self.__planilha.active.title
         self.__ultima_linha = self.__aba.max_row
         self.__ultima_coluna = self.__aba.max_column
+        self.__alinhamento_centralizado = Alignment(
+            horizontal='center', vertical='center')
 
     def abrir_arquivo(self) -> Workbook:
         """Método para abrir planilha
@@ -49,7 +51,7 @@ class ExcelDados(Arquivo[Workbook]):
             print(celula.style_id)
             if celula.value is None:
                 celula.value = 'X'
-                celula.alignment = alinhamento_centralizado
+                celula.alignment = self.__alinhamento_centralizado
 
     def salvar_planilha(self):
         """Método para salvar dados 

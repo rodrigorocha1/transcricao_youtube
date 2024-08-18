@@ -22,10 +22,14 @@ class Arquivo(IOperacaoDados, Generic[T]):
 
     @abstractmethod
     def salvar_dados(self):
+        """Método para salvar dados
+        """
         pass
 
     @abstractmethod
     def marcar_campo(self):
+        """Método para marcar as url baixadas
+        """
         pass
 
     @abstractmethod
