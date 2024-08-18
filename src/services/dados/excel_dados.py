@@ -1,6 +1,7 @@
 from typing import Generator, Tuple
 from openpyxl import load_workbook
 from openpyxl.workbook.workbook import Workbook
+from src.pacote_log.config_log import logger
 from src.services.dados.arquivo import Arquivo
 from unidecode import unidecode
 import re
@@ -36,8 +37,14 @@ class ExcelDados(Arquivo[Workbook]):
         Returns:
             Workbook: uma planilha
         """
-        planilha = load_workbook(self._caminho_arquivo)
-        return planilha
+        try:
+            planilha = load_workbook(self._caminho_arquivo)
+            return planilha
+        except FileNotFoundError:
+            logger.error('Arquivo não encontrado')
+            exit(1)
+        except Exception as e:
+            logger.critical(f'FALHA TOTAL: {e}')
 
     def ler_valores(self) -> Generator[Tuple[str], None, None]:
         """Método para ler os dados de arquivo, banco
@@ -53,21 +60,32 @@ class ExcelDados(Arquivo[Workbook]):
                     print('Fazendo resumo', url.value,
                           nome_video.value, marcador.value)
                     yield url.value.split('=')[-1], self.__tratar_texto(nome_video.value)
+
                 except:
                     break
 
     def gravar_dados(self,):
-        ws = self.__planilha.active
-        for linha in range(1, self.__ultima_linha):
-            celula = ws.cell(row=linha, column=3)
-            if celula.value is None or celula.value == '':
-                celula.value = 'X'
-    #
+        try:
+            ws = self.__planilha.active
+            for linha in range(1, self.__ultima_linha):
+                celula = ws.cell(row=linha, column=3)
+                if celula.value is None or celula.value == '':
+                    celula.value = 'X'
+
+        except Exception as e:
+            logger.critical(f'ERRO FATAL: {e}')
+            exit(1)
 
     def salvar_dados(self, nome_arquivo: str = None, **kwargs):
-
-        self.gravar_dados()
-        self.__planilha.save(self._caminho_arquivo)
+        try:
+            self.gravar_dados()
+            self.__planilha.save(self._caminho_arquivo)
+        except OSError as e:
+            logger.error(f'Erro de sistema ao salvar o arquivo: {e}')
+            exit(1)
+        except Exception as e:
+            logger.error(f'Erro ao salvar o arquivo: {e}')
+            exit(1)
 
     def __del__(self):
         self.__planilha.close()
