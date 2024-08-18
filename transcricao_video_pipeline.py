@@ -45,6 +45,7 @@ class TranscricaoVideoPipeline:
     def rodar_pipeline(self):
         logger.info('Iniciando Transcrição')
         for chave, valor in enumerate(self.__arquivo.ler_valores()):
+
             chave += 1
             texto_legenda = self.__servico_youtube.recuperar_legenda(valor[0])
             sentenca = self.__servico_chat.criar_sentenca(texto=texto_legenda)

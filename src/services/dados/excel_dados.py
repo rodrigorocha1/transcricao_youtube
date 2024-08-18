@@ -57,8 +57,8 @@ class ExcelDados(Arquivo[Workbook]):
 
             if marcador.value != 'X':
                 try:
-                    print('Fazendo resumo', url.value,
-                          nome_video.value, marcador.value)
+                    logger.info(
+                        f'Fazendo resumo {url.value}  {nome_video.value} {marcador.value}')
                     yield url.value.split('=')[-1], self.__tratar_texto(nome_video.value)
 
                 except:
