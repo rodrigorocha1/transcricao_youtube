@@ -1,5 +1,4 @@
 from abc import ABC, abstractmethod
-from typing import Tuple
 
 
 class IChat(ABC):
@@ -17,13 +16,13 @@ class IChat(ABC):
         pass
 
     @abstractmethod
-    def obter_resposta_modelo(self, sentenca: str) -> Tuple[str, str]:
-        """Método para recuperar a transcrição gravada e a transcrição bruta
+    def obter_resposta_modelo(self, sentenca: str) -> str:
+        """Método para obter a transcrição formatada pela IA
 
         Args:
             sentenca (str): recebe a sentença
 
         Returns:
-            Tuple[str, str]: resposta_tratada e resposta bruta
+            str: resposta da ia
         """
         pass

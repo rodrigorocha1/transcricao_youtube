@@ -16,9 +16,19 @@ class Arquivo(IOperacaoDados, Generic[T]):
         self._texto = texto
         self._nome_arquivo = nome_arquivo
         self._caminho_base = os.getcwd()
-        if self._nome_arquivo is not None:
-            self._caminho_arquivo = os.path.join(
-                self._caminho_base, 'docs', f'{self._nome_arquivo}')
+        self._nome_arquivo = nome_arquivo
+
+        self._caminho_arquivo = os.path.join(
+            self._caminho_base, 'docs', nome_arquivo) if nome_arquivo is not None else os.path.join(
+            self._caminho_base, 'docs')
+
+    @property
+    def nome_arquivo(self):
+        return self._nome_arquivo
+
+    @nome_arquivo.setter
+    def nome_arquivo(self, nome_arquivo: str):
+        self._nome_arquivo = nome_arquivo
 
     @property
     def texto(self):
