@@ -57,12 +57,13 @@ class TranscricaoVideoPipeline:
         self.__arquivo.salvar_dados(linha=chave)
 
 
-tvp = TranscricaoVideoPipeline(
-    arquivo=ExcelDados(
-        nome_arquivo='videos_transcrever.xlsx'
-    ),
-    servico_youtube=YoutubeInternet(),
-    servico_chat=ChatGoogleGemini(),
-    documento=Documento(),
-    arquivo_bruto=ArquivoTXT())
-tvp.rodar_pipeline()
+if __name__ == '__main__':
+    tvp = TranscricaoVideoPipeline(
+        arquivo=ExcelDados(
+            nome_arquivo='videos_transcrever.xlsx'
+        ),
+        servico_youtube=YoutubeInternet(),
+        servico_chat=ChatGoogleGemini(),
+        documento=Documento(),
+        arquivo_bruto=ArquivoTXT())
+    tvp.rodar_pipeline()
