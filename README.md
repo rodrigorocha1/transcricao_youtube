@@ -17,3 +17,5 @@ A figura abaixo, mostra um diagrama de classe para o projeto, a ideia, de maneir
 ## 4- Vídeo
 
 [Clique aqui para ver a demonstração]([https://youtu.be/tLYOw8iu-SM](https://youtu.be/CPAyC4Litms))
+ ## obs
+ executar o arquivo transcricao_video_pipeline.py e criar .env com a váriavel de ambiente chave_chat_gpt
