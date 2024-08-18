@@ -4,6 +4,7 @@ from openpyxl.workbook.workbook import Workbook
 from src.services.dados.arquivo import Arquivo
 from unidecode import unidecode
 import re
+import os
 
 
 class ExcelDados(Arquivo[Workbook]):
@@ -13,6 +14,7 @@ class ExcelDados(Arquivo[Workbook]):
         self.__planilha = self._abrir_arquivo()
         self.__nome_aba = self.__planilha.active.title
         self.__aba = self.__planilha[self.__nome_aba]
+        self.__ultima_linha = self.__aba.max_row
 
     def __tratar_texto(self, texto: str) -> str:
         """Método para tratar texto e deixar somente letras
@@ -46,20 +48,25 @@ class ExcelDados(Arquivo[Workbook]):
         for linha in self.__aba.iter_rows(min_row=2, max_col=3):
             url, nome_video, marcador = linha[:3]
 
-            if marcador.value is None:
-                yield url.value.split('=')[-1], self.__tratar_texto(nome_video.value)
-            else:
-                break
+            if marcador.value != 'X':
+                try:
+                    print('Fazendo resumo', url.value,
+                          nome_video.value, marcador.value)
+                    yield url.value.split('=')[-1], self.__tratar_texto(nome_video.value)
+                except:
+                    break
 
-    def gravar_dados(self, **kwargs):
-        linha = kwargs['linha']
-        linha += 1
-        celula = self.__planilha.active.cell(row=linha, column=3)
-        celula.value = 'X'
+    def gravar_dados(self,):
+        ws = self.__planilha.active
+        for linha in range(1, self.__ultima_linha):
+            celula = ws.cell(row=linha, column=3)
+            if celula.value is None or celula.value == '':
+                celula.value = 'X'
+    #
 
     def salvar_dados(self, nome_arquivo: str = None, **kwargs):
-        linha = kwargs['linha']
-        self.gravar_dados(linha=linha)
+
+        self.gravar_dados()
         self.__planilha.save(self._caminho_arquivo)
 
     def __del__(self):

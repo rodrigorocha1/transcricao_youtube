@@ -52,7 +52,7 @@ class TranscricaoVideoPipeline:
                 valor=valor,  texto_tratado=texto_tratado)
             self.__realizar_operacoes_texto_bruto(
                 valor=valor, texto_bruto=texto_legenda)
-            self.__arquivo.salvar_dados(linha=chave)
+        self.__arquivo.salvar_dados(linha=chave)
 
 
 tvp = TranscricaoVideoPipeline(

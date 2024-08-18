@@ -33,7 +33,7 @@ class Documento(Arquivo[docx.document.Document]):
     def opcao_tratamento(self, opcao_tratamento: int):
         self.__opcao_tratamento = opcao_tratamento
 
-    def gravar_dados(self, **kwargs):
+    def gravar_dados(self):
         if self.__opcao_tratamento == 1:
             linhas = self.texto.split("\n")
             for linha in linhas:
@@ -59,6 +59,8 @@ class Documento(Arquivo[docx.document.Document]):
     def salvar_dados(self, nome_arquivo: str = None):
         caminho_arquivo_salvar = os.path.join(
             self._caminho_base, 'docs', nome_arquivo)
+        os.makedirs(os.path.join(
+            self._caminho_base, 'docs'), exist_ok=True)
         self.__documento.save(caminho_arquivo_salvar)
 
     def __enter__(self):

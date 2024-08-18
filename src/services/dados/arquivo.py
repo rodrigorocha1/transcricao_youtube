@@ -57,7 +57,7 @@ class Arquivo(IOperacaoDados, Generic[T]):
         pass
 
     @abstractmethod
-    def gravar_dados(self, **kwargs):
+    def gravar_dados(self):
         """Método para gravar dados
         """
         pass

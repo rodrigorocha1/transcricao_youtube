@@ -16,7 +16,7 @@ class ArquivoTXT(Arquivo[TextIO]):
             for linha in arquivo:
                 yield linha
 
-    def gravar_dados(self, **kwargs):
+    def gravar_dados(self):
 
         with self._abrir_arquivo() as arquivo:
             arquivo.write(self.texto)
