@@ -15,8 +15,6 @@ class ExcelDados(Arquivo[Workbook]):
         self.__planilha = self._abrir_arquivo()
         self.__nome_aba = self.__planilha.active.title
         self.__aba = self.__planilha[self.__nome_aba]
-        self.__ultima_linha = self.__aba.max_row
-        self.__ultima_coluna = self.__aba.max_column
         self.__alinhamento_centralizado = Alignment(
             horizontal='center', vertical='center')
 
