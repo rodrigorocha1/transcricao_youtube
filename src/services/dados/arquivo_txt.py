@@ -9,10 +9,10 @@ class ArquivoTXT(Arquivo[TextIO]):
 
     def _abrir_arquivo(self) -> TextIO:
         if self.nome_arquivo is not None:
-            return open(self.caminho_arquivo, 'w')
+            return open(os.path.join(self._caminho_arquivo, self._nome_arquivo), 'w')
 
     def ler_valores(self) -> Generator[Tuple[str, str], None, None]:
-        with open(self.caminho_arquivo, 'r') as arquivo:
+        with open(self._caminho_arquivo, 'r') as arquivo:
             for linha in arquivo:
                 yield linha
 

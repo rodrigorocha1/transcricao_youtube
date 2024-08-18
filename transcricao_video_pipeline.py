@@ -37,7 +37,6 @@ class TranscricaoVideoPipeline:
         arquivo_bruto = self.__arquivo_bruto
         arquivo_bruto.texto = texto_bruto
         arquivo_bruto.nome_arquivo = f'transcricao_bruta_{valor[1]}.txt'
-        arquivo_bruto.caminho_arquivo = f'transcricao_bruta.txt'
         arquivo_bruto.gravar_dados()
         arquivo_bruto.salvar_dados()
         del arquivo_bruto

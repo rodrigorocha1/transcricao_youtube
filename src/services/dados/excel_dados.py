@@ -45,7 +45,7 @@ class ExcelDados(Arquivo[Workbook]):
         """
         for linha in self.__aba.iter_rows(min_row=2, max_col=3):
             url, nome_video, marcador = linha[:3]
-            print(marcador.value)
+
             if marcador.value is None:
                 yield url.value.split('=')[-1], self.__tratar_texto(nome_video.value)
             else:
