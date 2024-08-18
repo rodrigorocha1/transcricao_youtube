@@ -26,13 +26,17 @@ class TranscricaoVideoPipeline:
             chave += 1
             texto_legenda = self.__servico_youtube.recuperar_legenda(valor[0])
             sentenca = self.__servico_chat.criar_sentenca(texto=texto_legenda)
-            # texto_gerado = self.__servico_chat.obter_resposta_modelo(
-            #     sentenca=sentenca)
-            texto_gerado = 'A'
-            self.__documento.gravar_dados(texto=texto_gerado)
+            texto_tratado, texto_bruto = self.__servico_chat.obter_resposta_modelo(
+                sentenca=sentenca)
+            self.__documento.gravar_dados(texto=texto_tratado)
             self.__documento.salvar_dados(
                 f'resumo_do_video_{str(valor[1])}.docx')
+            self.__documento.gravar_dados(texto=texto_bruto)
+            self.__documento.salvar_dados(f'transcricao_bruta_{valor[1]}.docx')
             self.__arquivo.salvar_dados(linha=chave)
+            del self.__arquivo
+            del self.__documento
+            del self.__servico_chat
 
 
 tvp = TranscricaoVideoPipeline(

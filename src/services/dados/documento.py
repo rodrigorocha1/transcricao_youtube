@@ -10,8 +10,8 @@ from src.services.dados.arquivo import Arquivo
 
 class Documento(Arquivo[docx.document.Document]):
 
-    def __init__(self, nome_arquivo: str = None) -> None:
-        super().__init__(nome_arquivo)
+    def __init__(self, nome_arquivo: str = None, texto: str = None) -> None:
+        super().__init__(nome_arquivo, texto)
         self.__fonte = 'Ubuntu'
         self.__cor = RGBColor(0, 0, 0)
         self.__alinhamento_justificado = WD_ALIGN_PARAGRAPH.JUSTIFY

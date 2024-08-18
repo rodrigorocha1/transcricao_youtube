@@ -7,12 +7,13 @@ T = TypeVar('T')
 
 
 class Arquivo(IOperacaoDados, Generic[T]):
-    def __init__(self, nome_arquivo: str = None) -> None:
+    def __init__(self, nome_arquivo: str = None, texto: str = None) -> None:
         """_summary_
 
         Args:
             nome_arquivo (str): nome do arquivo a ser aberto sem extensao 
         """
+        self._texto = texto
         self._nome_arquivo = nome_arquivo
         self._caminho_base = os.getcwd()
         if self._nome_arquivo is not None:

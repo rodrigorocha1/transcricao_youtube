@@ -9,8 +9,9 @@ import re
 
 class ExcelDados(Arquivo[Workbook]):
 
-    def __init__(self, nome_arquivo: str = None) -> None:
-        super().__init__(nome_arquivo)
+    def __init__(self, nome_arquivo: str = None, texto: str = None) -> None:
+        super().__init__(nome_arquivo, texto)
+
         self.__planilha = self._abrir_arquivo()
         self.__nome_aba = self.__planilha.active.title
         self.__aba = self.__planilha[self.__nome_aba]
@@ -51,7 +52,7 @@ class ExcelDados(Arquivo[Workbook]):
         for linha in self.__aba.iter_rows(min_row=2, max_col=3):
             url, nome_video, marcador = linha[:3]
 
-            if marcador.value is not None:
+            if marcador.value is None:
                 yield url.value.split('=')[-1], self.__tratar_texto(nome_video.value)
             else:
                 break
