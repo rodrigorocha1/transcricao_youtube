@@ -6,6 +6,7 @@ import docx.document
 from docx.enum.text import WD_ALIGN_PARAGRAPH
 from docx.shared import RGBColor
 from src.services.dados.arquivo import Arquivo
+from src.pacote_log.config_log import logger
 
 
 class Documento(Arquivo[docx.document.Document]):
@@ -57,11 +58,15 @@ class Documento(Arquivo[docx.document.Document]):
                         run.font.name = self.__fonte
 
     def salvar_dados(self, nome_arquivo: str = None):
-        caminho_arquivo_salvar = os.path.join(
-            self._caminho_base, 'docs', nome_arquivo)
-        os.makedirs(os.path.join(
-            self._caminho_base, 'docs'), exist_ok=True)
-        self.__documento.save(caminho_arquivo_salvar)
+        try:
+            caminho_arquivo_salvar = os.path.join(
+                self._caminho_base, 'docs', nome_arquivo)
+            os.makedirs(os.path.join(
+                self._caminho_base, 'docs'), exist_ok=True)
+            self.__documento.save(caminho_arquivo_salvar)
+        except Exception as e:
+            logger.critical(f'ERRO GERAL: {e}')
+            exit()
 
     def __enter__(self):
         return self

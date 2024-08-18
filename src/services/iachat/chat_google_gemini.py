@@ -1,7 +1,7 @@
 import google.generativeai as genai
 from src.services.iachat.ichat import IChat
 from dotenv import load_dotenv
-from typing import Tuple
+from src.pacote_log.config_log import logger
 import os
 load_dotenv
 
@@ -38,10 +38,13 @@ class ChatGoogleGemini(IChat):
         Returns:
             str: resposta da ia
         """
+        try:
+            genai.configure(api_key=self.__api_key)
+            model = genai.GenerativeModel("gemini-1.5-flash")
+            response = model.generate_content(sentenca)
+            texto = response.text
 
-        genai.configure(api_key=self.__api_key)
-        model = genai.GenerativeModel("gemini-1.5-flash")
-        response = model.generate_content(sentenca)
-        texto = response.text
-
-        return texto
+            return texto
+        except Exception as e:
+            logger.critical(f'Falha total: {e}')
+            exit()

@@ -7,6 +7,7 @@ from src.services.iachat.chat_google_gemini import ChatGoogleGemini
 from src.services.dados.documento import Documento
 from src.services.dados.arquivo import Arquivo
 from src.services.dados.arquivo_txt import ArquivoTXT
+from src.pacote_log.config_log import logger
 from typing import Union, Tuple
 
 
@@ -42,6 +43,7 @@ class TranscricaoVideoPipeline:
         del arquivo_bruto
 
     def rodar_pipeline(self):
+        logger.info('Iniciando Transcrição')
         for chave, valor in enumerate(self.__arquivo.ler_valores()):
             chave += 1
             texto_legenda = self.__servico_youtube.recuperar_legenda(valor[0])
