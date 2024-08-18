@@ -42,7 +42,7 @@ class ExcelDados(Arquivo[Workbook]):
             return planilha
         except FileNotFoundError:
             logger.error('Arquivo não encontrado')
-            exit(1)
+            exit()
         except Exception as e:
             logger.critical(f'FALHA TOTAL: {e}')
 
@@ -74,7 +74,7 @@ class ExcelDados(Arquivo[Workbook]):
 
         except Exception as e:
             logger.critical(f'ERRO FATAL: {e}')
-            exit(1)
+            exit()
 
     def salvar_dados(self, nome_arquivo: str = None, **kwargs):
         try:
@@ -82,10 +82,10 @@ class ExcelDados(Arquivo[Workbook]):
             self.__planilha.save(self._caminho_arquivo)
         except OSError as e:
             logger.error(f'Erro de sistema ao salvar o arquivo: {e}')
-            exit(1)
+            exit()
         except Exception as e:
             logger.error(f'Erro ao salvar o arquivo: {e}')
-            exit(1)
+            exit()
 
     def __del__(self):
         self.__planilha.close()
