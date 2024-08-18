@@ -1,3 +1,5 @@
+from typing import Generator, Iterable
+
 from docx.document import Document
 from docx.enum.text import WD_ALIGN_PARAGRAPH
 from docx.shared import RGBColor
@@ -12,6 +14,9 @@ class Documento(Arquivo[Document]):
         self.__cor = RGBColor(0, 0, 0)
         self.__alinhamento_justificado = WD_ALIGN_PARAGRAPH.JUSTIFY
         self.__documento = self._abrir_arquivo()
+
+    def ler_valores(self) -> Generator[Iterable[str], None, None]:
+        return super().ler_valores()
 
     def _abrir_arquivo(self) -> Document:
         """Método para abrir_arquivo

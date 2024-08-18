@@ -4,11 +4,14 @@ from abc import ABC, abstractmethod
 class IChat(ABC):
 
     @abstractmethod
-    def criar_sentenca(self) -> str:
-        """Método que vai criar a sentença para o chat
+    def criar_sentenca(self, texto) -> str:
+        """Método que cria a setença
+
+        Args:
+            texto (_type_): recebe o texto
 
         Returns:
-            str: retorna a consulta
+            str: sentença que ira ser lida
         """
         pass
 

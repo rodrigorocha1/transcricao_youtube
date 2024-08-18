@@ -12,8 +12,9 @@ class ExcelDados(Arquivo[Workbook]):
         super().__init__(nome_arquivo)
 
         self.__planilha = self._abrir_arquivo()
-        self.__aba = self.__planilha[self.__nome_aba]
+
         self.__nome_aba = self.__planilha.active.title
+        self.__aba = self.__planilha[self.__nome_aba]
         self.__ultima_linha = self.__aba.max_row
         self.__ultima_coluna = self.__aba.max_column
         self.__alinhamento_centralizado = Alignment(
@@ -55,7 +56,7 @@ class ExcelDados(Arquivo[Workbook]):
                 celula.value = 'X'
                 celula.alignment = self.__alinhamento_centralizado
 
-    def salvar_planilha(self):
+    def salvar_dados(self):
         """Método para salvar dados
         """
         self.__planilha.save(self._caminho_arquivo)

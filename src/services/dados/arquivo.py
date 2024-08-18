@@ -7,7 +7,7 @@ T = TypeVar('T')
 
 
 class Arquivo(IOperacaoDados, Generic[T]):
-    def __init__(self, nome_arquivo: str) -> None:
+    def __init__(self, nome_arquivo: str = None) -> None:
         """_summary_
 
         Args:
@@ -15,8 +15,9 @@ class Arquivo(IOperacaoDados, Generic[T]):
         """
         self._nome_arquivo = nome_arquivo
         self._caminho_base = os.getcwd()
-        self._caminho_arquivo = os.path.join(
-            self._caminho_base, 'docs', f'{self._nome_arquivo}')
+        if self._nome_arquivo is not None:
+            self._caminho_arquivo = os.path.join(
+                self._caminho_base, 'docs', f'{self._nome_arquivo}')
 
     @abstractmethod
     def _abrir_arquivo(self) -> T:
