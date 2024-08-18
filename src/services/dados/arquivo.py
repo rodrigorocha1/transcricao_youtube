@@ -1,5 +1,5 @@
 from src.services.dados.ioperacoes_dados import IOperacaoDados
-from typing import Generator, Iterable, TypeVar, Generic
+from typing import Generator, Tuple, TypeVar, Generic
 from abc import abstractmethod
 import os
 
@@ -20,17 +20,12 @@ class Arquivo(IOperacaoDados, Generic[T]):
                 self._caminho_base, 'docs', f'{self._nome_arquivo}')
 
     @abstractmethod
-    def ler_valores(self) -> Generator[Iterable[str], None, None]:
-        """Método para ler os valores da planilha
-
-        Args:
-            aba (Worksheet): a aba da planilha que está ativa
-            ultima_linha (int): última linha do xlsx
+    def ler_valores(self) -> Generator[Tuple[str, str], None, None]:
+        """Método para ler os dados de arquivo, banco
 
         Yields:
-            Generator[Iterable[str], None, None]: gerador com o valores da celula
+            Generator[Tuple[str, str], None, None]: Gerador que retorna a url e o nome do vídeo
         """
-
         pass
 
     @abstractmethod
@@ -43,7 +38,7 @@ class Arquivo(IOperacaoDados, Generic[T]):
         pass
 
     @abstractmethod
-    def salvar_dados(self, nome_arquivo: str = None):
+    def salvar_dados(self, nome_arquivo: str = None, **kwargs):
         """Método para salvar arquivo
 
         Args:

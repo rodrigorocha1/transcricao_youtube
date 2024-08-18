@@ -1,9 +1,10 @@
-from typing import Generator, Iterable
+from typing import Generator, Iterable, Tuple
 from openpyxl import load_workbook
 from openpyxl.workbook.workbook import Workbook
 from openpyxl.styles import Alignment
 from src.services.dados.arquivo import Arquivo
-import os
+from unidecode import unidecode
+import re
 
 
 class ExcelDados(Arquivo[Workbook]):
@@ -18,6 +19,20 @@ class ExcelDados(Arquivo[Workbook]):
         self.__alinhamento_centralizado = Alignment(
             horizontal='center', vertical='center')
 
+    def __tratar_texto(self, texto: str) -> str:
+        """Método para tratar texto e deixar somente letras
+
+        Args:
+            texto (str): recebe um texto
+
+        Returns:
+            str: texto tratado
+        """
+        texto = texto.replace(' ', '_')
+        texto = unidecode(texto.lower())
+        texto = re.sub('[^a-z_]', '', texto)
+        return texto
+
     def _abrir_arquivo(self) -> Workbook:
         """Método para abrir a planilha
 
@@ -27,34 +42,25 @@ class ExcelDados(Arquivo[Workbook]):
         planilha = load_workbook(self._caminho_arquivo)
         return planilha
 
-    def ler_valores(self) -> Generator[Iterable[str], None, None]:
-        """Método para ler os valores da planilha
-
-        Args:
-            aba (Worksheet): a aba da planilha que está ativa
-            ultima_linha (int): última linha do xlsx
+    def ler_valores(self) -> Generator[Tuple[str], None, None]:
+        """Método para ler os dados de arquivo, banco
 
         Yields:
-            Generator[Iterable[str], None, None]: gerador com o valores da celula
+            Generator[Tuple[str, str], None, None]: Gerador que retorna a url e o nome do vídeo
         """
+        for linha in self.__aba.iter_rows(min_row=2, max_col=2):
+            url, nome_video = linha[:2]
+            if url.value is not None:
+                yield url.value.split('=')[-1], self.__tratar_texto(nome_video.value)
 
-        for linha in self.__aba.iter_rows(min_row=2, max_col=1):
-            celula = linha[0]
-            yield celula.value.split('=')[-1]
+    def __marcar_campo(self, linha: int):
+        linha += 1
+        celula = self.__planilha.active.cell(row=linha, column=3)
+        celula.value = 'X'
 
-    def marcar_campo(self):
-        for linha in self.__aba.iter_rows(
-                min_row=1,
-                max_row=self.__ultima_linha,
-                min_col=self.__ultima_coluna, max_col=self.__ultima_coluna):
-            celula = linha[0]
-            print(linha[0])
-            print(celula.style_id)
-            if celula.value is None:
-                celula.value = 'X'
-                celula.alignment = self.__alinhamento_centralizado
-
-    def salvar_dados(self, nome_arquivo: str = None):
+    def salvar_dados(self, nome_arquivo: str = None, **kwargs):
+        linha = kwargs['linha']
+        self.__marcar_campo(linha=linha)
         self.__planilha.save(self._caminho_arquivo)
 
     def __del__(self):

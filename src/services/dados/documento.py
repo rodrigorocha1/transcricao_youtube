@@ -1,29 +1,26 @@
 from typing import Generator, Iterable
 import os
-from docx.document import Document
+import docx
+from docx import Document
+import docx.document
 from docx.enum.text import WD_ALIGN_PARAGRAPH
 from docx.shared import RGBColor
 from src.services.dados.arquivo import Arquivo
 
 
-class Documento(Arquivo[Document]):
+class Documento(Arquivo[docx.document.Document]):
 
     def __init__(self, nome_arquivo: str = None) -> None:
         super().__init__(nome_arquivo)
         self.__fonte = 'Ubuntu'
         self.__cor = RGBColor(0, 0, 0)
         self.__alinhamento_justificado = WD_ALIGN_PARAGRAPH.JUSTIFY
-        self.__documento = self._abrir_arquivo
+        self.__documento = self._abrir_arquivo()
 
     def ler_valores(self) -> Generator[Iterable[str], None, None]:
         return super().ler_valores()
 
-    def _abrir_arquivo(self) -> Document:
-        """Método para abrir_arquivo
-
-        Returns:
-            Document: _description_
-        """
+    def _abrir_arquivo(self) -> docx.document.Document:
         documento = Document()
         return documento
 

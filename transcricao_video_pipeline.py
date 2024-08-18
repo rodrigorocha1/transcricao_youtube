@@ -5,12 +5,14 @@ from src.services.youtube_internet.YotubeInternet import YoutubeInternet
 from src.services.iachat.ichat import IChat
 from src.services.iachat.chat_google_gemini import ChatGoogleGemini
 from src.services.dados.documento import Documento
+from src.services.dados.arquivo import Arquivo
+from typing import Union
 
 
 class TranscricaoVideoPipeline:
     def __init__(
             self, arquivo:
-            IOperacaoDados,
+            Union[IOperacaoDados, Arquivo],
             servico_youtube: IYoutubeInternet,
             servico_chat: IChat,
             documento: Documento) -> None:
@@ -21,12 +23,15 @@ class TranscricaoVideoPipeline:
 
     def rodar_pipeline(self):
         for chave, valor in enumerate(self.__arquivo.ler_valores()):
-            texto_legenda = self.__servico_youtube.recuperar_legenda(valor)
+            chave += 1
+            texto_legenda = self.__servico_youtube.recuperar_legenda(valor[0])
             sentenca = self.__servico_chat.criar_sentenca(texto=texto_legenda)
-            texto_gerado = self.__servico_chat.obter_resposta_modelo(
-                sentenca=sentenca)
+            # texto_gerado = self.__servico_chat.obter_resposta_modelo(
+            #     sentenca=sentenca)
+            texto_gerado = 'A'
             self.__documento.gravar_dados(texto=texto_gerado)
             self.__documento.salvar_dados(f'{str(chave)}.docx')
+            self.__arquivo.salvar_dados(linha=chave)
 
 
 tvp = TranscricaoVideoPipeline(
