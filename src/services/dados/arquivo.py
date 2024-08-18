@@ -20,6 +20,20 @@ class Arquivo(IOperacaoDados, Generic[T]):
                 self._caminho_base, 'docs', f'{self._nome_arquivo}')
 
     @abstractmethod
+    def ler_valores(self) -> Generator[Iterable[str], None, None]:
+        """Método para ler os valores da planilha
+
+        Args:
+            aba (Worksheet): a aba da planilha que está ativa
+            ultima_linha (int): última linha do xlsx
+
+        Yields:
+            Generator[Iterable[str], None, None]: gerador com o valores da celula
+        """
+
+        pass
+
+    @abstractmethod
     def _abrir_arquivo(self) -> T:
         """_summary_
 
@@ -29,7 +43,10 @@ class Arquivo(IOperacaoDados, Generic[T]):
         pass
 
     @abstractmethod
-    def salvar_dados(self):
-        """Método para salvar dados
+    def salvar_dados(self, nome_arquivo: str = None):
+        """Método para salvar arquivo
+
+        Args:
+            nome_arquivo (str, optional): nome do arquivo . Defaults to None.
         """
         pass

@@ -8,11 +8,9 @@ import os
 
 class ExcelDados(Arquivo[Workbook]):
 
-    def __init__(self, nome_arquivo: str) -> None:
+    def __init__(self, nome_arquivo: str = None) -> None:
         super().__init__(nome_arquivo)
-
         self.__planilha = self._abrir_arquivo()
-
         self.__nome_aba = self.__planilha.active.title
         self.__aba = self.__planilha[self.__nome_aba]
         self.__ultima_linha = self.__aba.max_row
@@ -56,9 +54,7 @@ class ExcelDados(Arquivo[Workbook]):
                 celula.value = 'X'
                 celula.alignment = self.__alinhamento_centralizado
 
-    def salvar_dados(self):
-        """Método para salvar dados
-        """
+    def salvar_dados(self, nome_arquivo: str = None):
         self.__planilha.save(self._caminho_arquivo)
 
     def __del__(self):
