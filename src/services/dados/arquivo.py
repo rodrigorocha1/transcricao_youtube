@@ -20,6 +20,14 @@ class Arquivo(IOperacaoDados, Generic[T]):
             self._caminho_arquivo = os.path.join(
                 self._caminho_base, 'docs', f'{self._nome_arquivo}')
 
+    @property
+    def texto(self):
+        return self._texto
+
+    @texto.setter
+    def texto(self, texto: str):
+        self._texto = texto
+
     @abstractmethod
     def ler_valores(self) -> Generator[Tuple[str, str], None, None]:
         """Método para ler os dados de arquivo, banco
@@ -35,6 +43,12 @@ class Arquivo(IOperacaoDados, Generic[T]):
 
         Returns:
             T: Retorna o arquivo aberto
+        """
+        pass
+
+    @abstractmethod
+    def gravar_dados(self, **kwargs):
+        """Método para gravar dados
         """
         pass
 

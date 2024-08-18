@@ -57,14 +57,15 @@ class ExcelDados(Arquivo[Workbook]):
             else:
                 break
 
-    def __marcar_campo(self, linha: int):
+    def gravar_dados(self, **kwargs):
+        linha = kwargs['linha']
         linha += 1
         celula = self.__planilha.active.cell(row=linha, column=3)
         celula.value = 'X'
 
     def salvar_dados(self, nome_arquivo: str = None, **kwargs):
         linha = kwargs['linha']
-        self.__marcar_campo(linha=linha)
+        self.gravar_dados(linha=linha)
         self.__planilha.save(self._caminho_arquivo)
 
     def __del__(self):

@@ -24,8 +24,8 @@ class Documento(Arquivo[docx.document.Document]):
         documento = Document()
         return documento
 
-    def gravar_dados(self, texto: str):
-        linhas = texto.split("\n")
+    def gravar_dados(self, **kwargs):
+        linhas = self.texto.split("\n")
         for linha in linhas:
             if linha.startswith("##  "):
                 titulo = self.__documento.add_heading(linha[3:], level=1)
