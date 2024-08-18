@@ -1,7 +1,6 @@
-from typing import Generator, Iterable, Tuple
+from typing import Generator, Tuple
 from openpyxl import load_workbook
 from openpyxl.workbook.workbook import Workbook
-from openpyxl.styles import Alignment
 from src.services.dados.arquivo import Arquivo
 from unidecode import unidecode
 import re
@@ -11,12 +10,9 @@ class ExcelDados(Arquivo[Workbook]):
 
     def __init__(self, nome_arquivo: str = None, texto: str = None) -> None:
         super().__init__(nome_arquivo, texto)
-
         self.__planilha = self._abrir_arquivo()
         self.__nome_aba = self.__planilha.active.title
         self.__aba = self.__planilha[self.__nome_aba]
-        self.__alinhamento_centralizado = Alignment(
-            horizontal='center', vertical='center')
 
     def __tratar_texto(self, texto: str) -> str:
         """Método para tratar texto e deixar somente letras
